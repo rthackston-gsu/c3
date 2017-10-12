@@ -9,7 +9,8 @@ namespace magic.gsu.edu
     class CreateS3
     {
         static string bucketName = "magic.bucket.one";
-        public static void Main(string[] args)
+        
+        public static void GetAvailableBucket()
         {
             using (var client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
             {
@@ -20,8 +21,6 @@ namespace magic.gsu.edu
                 }
                 string bucketLocation = FindBucketLocation(client);
             }
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
 
         static string FindBucketLocation(IAmazonS3 client)

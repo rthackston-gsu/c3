@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Amazon.EC2;
+using Amazon.El;
 using Amazon.EC2.model;
 using Amazon.Util;
 
