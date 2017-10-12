@@ -26,10 +26,20 @@ namespace magic.gsu.edu
             string amiID = "ami-e189c8d1";
             string keyPairName = "my_sample_key";
 
+            var instanceProfileArn = CreateInstanceProfile();
+            Console.WriteLine("Created Instance Profile: {0}", instanceProfileArn);
+
+            var keyPair = ec2Client.CreateKeyPair(new CreateKeyPairRequest
+            {
+                KeyName = keyPairName + RESOURCDE_POSTFIX
+            }).KeyPair;
+
+            /*
             List<string> groups = new List<string>()
             {
                 CreateSecurityGroup().GroupId
             };
+            */
 
             var launchRequest = new RunInstancesRequest()
             {
@@ -37,8 +47,12 @@ namespace magic.gsu.edu
                 InstanceType = InstanceType.T1Micro,
                 MinCount = 1,
                 MaxCount = 1,
-                KeyName = keyPairName,
-                SecurityGroupIds = groups
+                KeyName = keyPair.KeyName,
+                IamInstanceProfile = new IamInstanceProfileSpecification
+                {
+                    Arn = instanceProfileArn
+                }
+                // SecurityGroupIds = groups
             };
 
             var launchResponse = ec2Client.RunInstances(launchRequest);
@@ -91,7 +105,7 @@ namespace magic.gsu.edu
             client.CreateRole(new CreateRoleRequest
             {
                 RoleName = roleName,
-                AssumeRolePolicyDocument = @"{""Statement"":[{""Principal"":{""Service"":[""ec2.amazonaws.com""]},""Effect"":""Allow"",""Action"":[""sts.AssumeRole""]}]}"
+                AssumeRolePolicyDocument = @"{""Statement"":[{""Principal"":{""Service"":[""ec2.amazonaws.com""]},""Effect"":""Allow"",""Action"":[""sts:AssumeRole""]}]}"
             });
 
             var statement = new Statement(Statement.StatementEffect.Allow);
