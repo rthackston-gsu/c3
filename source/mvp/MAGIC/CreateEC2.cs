@@ -5,12 +5,21 @@ using Amazon;
 using Amazon.EC2;
 using Amazon.EC2.Model;
 using Amazon.EC2.Util;
+
+using Amazon.IdentityManagement;
+using Amazon.IdentityManagement.Model;
+
+using Amazon.Auth.AccessControlPolicy;
+using Amazon.Auth.AccessControlPolicy.ActionIdentifiers;
+using Statement = Amazon.Auth.AccessControlPolicy.Statement;
+
 using Amazon.Util;
 
 namespace magic.gsu.edu
 {
     class CreateEC2
     {
+        static readonly string RESOURCDE_POSTFIX = DateTime.Now.Ticks.ToString();
         static AmazonEC2Client ec2Client = new AmazonEC2Client();
         public static void CreateInstance()
         {
@@ -62,6 +71,7 @@ namespace magic.gsu.edu
             var dsgRequest = new DescribeSecurityGroupsRequest();
             dsgRequest.Filters.Add(vpcFilter);
             var dsgResponse = ec2Client.DescribeSecurityGroups(dsgRequest);
+            Console.WriteLine(dsgResponse.HttpStatusCode);
             List<SecurityGroup> mySGs = dsgResponse.SecurityGroups;
             foreach (SecurityGroup item in mySGs)
             {
@@ -72,6 +82,44 @@ namespace magic.gsu.edu
                 }
             }
             return mySG;
+        }
+
+        static string CreateInstanceProfile()
+        {
+            var roleName = "ec2-sample-" + RESOURCDE_POSTFIX;
+            var client = new AmazonIdentityManagementServiceClient();
+            client.CreateRole(new CreateRoleRequest
+            {
+                RoleName = roleName,
+                AssumeRolePolicyDocument = @"{""Statement"":[{""Principal"":{""Service"":[""ec2.amazonaws.com""]},""Effect"":""Allow"",""Action"":[""sts.AssumeRole""]}]}"
+            });
+
+            var statement = new Statement(Statement.StatementEffect.Allow);
+            statement.Actions.Add(S3ActionIdentifiers.AllS3Actions);
+            statement.Resources.Add(new Resource("*"));
+
+            var policy = new Policy();
+            policy.Statements.Add(statement);
+
+            client.PutRolePolicy(new PutRolePolicyRequest
+            {
+                RoleName = roleName,
+                PolicyName = "S3Access",
+                PolicyDocument = policy.ToJson()
+            });
+
+            var response = client.CreateInstanceProfile(new CreateInstanceProfileRequest
+            {
+                InstanceProfileName = roleName
+            });
+
+            client.AddRoleToInstanceProfile(new AddRoleToInstanceProfileRequest
+            {
+                InstanceProfileName = roleName,
+                RoleName = roleName
+            });
+
+            return response.InstanceProfile.Arn;
         }
     }
 }
