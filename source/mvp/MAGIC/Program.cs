@@ -11,7 +11,7 @@ namespace magic.gsu.edu
         public static void Main(string[] args)
         {
             CreateS3.GetAvailableBucket();
-            CreateEC2.CreateInstance();
+            CreateEc2.CreateInstance();
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }

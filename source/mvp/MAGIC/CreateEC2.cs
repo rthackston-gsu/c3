@@ -1,37 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using Amazon;
-using Amazon.EC2;
-using Amazon.EC2.Model;
-using Amazon.EC2.Util;
-
-using Amazon.IdentityManagement;
-using Amazon.IdentityManagement.Model;
-
 using Amazon.Auth.AccessControlPolicy;
 using Amazon.Auth.AccessControlPolicy.ActionIdentifiers;
+using Amazon.EC2;
+using Amazon.EC2.Model;
+using Amazon.IdentityManagement;
+using Amazon.IdentityManagement.Model;
 using Statement = Amazon.Auth.AccessControlPolicy.Statement;
-
-using Amazon.Util;
 
 namespace magic.gsu.edu
 {
-    class CreateEC2
+    public static class CreateEc2
     {
-        static readonly string RESOURCDE_POSTFIX = DateTime.Now.Ticks.ToString();
-        static AmazonEC2Client ec2Client = new AmazonEC2Client();
+        private static readonly string ResourcdePostfix = DateTime.Now.Ticks.ToString();
+        static readonly AmazonEC2Client Ec2Client = new AmazonEC2Client();
         public static void CreateInstance()
         {
-            string amiID = "ami-e189c8d1";
-            string keyPairName = "my_sample_key";
+            const string amiId = "ami-e189c8d1";
+            const string keyPairName = "my_sample_key";
 
             var instanceProfileArn = CreateInstanceProfile();
             Console.WriteLine("Created Instance Profile: {0}", instanceProfileArn);
 
-            var keyPair = ec2Client.CreateKeyPair(new CreateKeyPairRequest
+            var keyPair = Ec2Client.CreateKeyPair(new CreateKeyPairRequest
             {
-                KeyName = keyPairName + RESOURCDE_POSTFIX
+                KeyName = keyPairName + ResourcdePostfix
             }).KeyPair;
 
             /*
@@ -43,7 +36,7 @@ namespace magic.gsu.edu
 
             var launchRequest = new RunInstancesRequest()
             {
-                ImageId = amiID,
+                ImageId = amiId,
                 InstanceType = InstanceType.T1Micro,
                 MinCount = 1,
                 MaxCount = 1,
@@ -55,10 +48,10 @@ namespace magic.gsu.edu
                 // SecurityGroupIds = groups
             };
 
-            var launchResponse = ec2Client.RunInstances(launchRequest);
+            var launchResponse = Ec2Client.RunInstances(launchRequest);
             var instances = launchResponse.Reservation.Instances;
             var instanceIds = new List<string>();
-            foreach (Instance item in instances)
+            foreach (var item in instances)
             {
                 instanceIds.Add(item.InstanceId);
                 Console.WriteLine();
@@ -70,37 +63,37 @@ namespace magic.gsu.edu
 
         public static SecurityGroup CreateSecurityGroup()
         {
-            string secGroupName = "my_sample_sg_vpc";
-            SecurityGroup mySG = null;
-            string vpcID = "vpc-f1663d98";
+            const string secGroupName = "my_sample_sg_vpc";
+            SecurityGroup mySg = null;
+            var vpcId = "vpc-f1663d98";
 
-            Filter vpcFilter = new Filter
+            var vpcFilter = new Filter
             {
                 Name = "vpc-id",
                 Values = new List<string>()
                 {
-                    vpcID
+                    vpcId
                 }
             };
             var dsgRequest = new DescribeSecurityGroupsRequest();
             dsgRequest.Filters.Add(vpcFilter);
-            var dsgResponse = ec2Client.DescribeSecurityGroups(dsgRequest);
+            var dsgResponse = Ec2Client.DescribeSecurityGroups(dsgRequest);
             Console.WriteLine(dsgResponse.HttpStatusCode);
-            List<SecurityGroup> mySGs = dsgResponse.SecurityGroups;
-            foreach (SecurityGroup item in mySGs)
+            var mySGs = dsgResponse.SecurityGroups;
+            foreach (var item in mySGs)
             {
                 Console.WriteLine("Existing security group: " + item.GroupId);
                 if (item.GroupName == secGroupName)
                 {
-                    mySG = item;
+                    mySg = item;
                 }
             }
-            return mySG;
+            return mySg;
         }
 
-        static string CreateInstanceProfile()
+        private static string CreateInstanceProfile()
         {
-            var roleName = "ec2-sample-" + RESOURCDE_POSTFIX;
+            var roleName = "ec2-sample-" + ResourcdePostfix;
             var client = new AmazonIdentityManagementServiceClient();
             client.CreateRole(new CreateRoleRequest
             {

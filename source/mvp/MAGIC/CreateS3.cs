@@ -6,50 +6,52 @@ using Amazon.S3.Util;
 
 namespace magic.gsu.edu
 {
-    class CreateS3
+    public static class CreateS3
     {
-        static string bucketName = "magic.bucket.one";
-        
+        private const string BucketName = "magic.bucket.two";
+
         public static void GetAvailableBucket()
         {
             using (var client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
             {
-                if (!(AmazonS3Util.DoesS3BucketExist(client, bucketName)))
+                if (!(AmazonS3Util.DoesS3BucketExist(client, BucketName)))
                 {
                     Console.Write("Creating Bucket");
                     CreateABucket(client);
                 }
-                string bucketLocation = FindBucketLocation(client);
+                var bucketLocation = FindBucketLocation(client);
+                Console.WriteLine(bucketLocation);
             }
         }
 
-        static string FindBucketLocation(IAmazonS3 client)
+        private static string FindBucketLocation(IAmazonS3 client)
         {
-            GetBucketLocationRequest request = new GetBucketLocationRequest()
+            var request = new GetBucketLocationRequest()
             {
-                BucketName = bucketName
+                BucketName = BucketName
             };
-            GetBucketLocationResponse response = client.GetBucketLocation(request); 
+            var response = client.GetBucketLocation(request); 
             return response.Location.ToString();
         }
 
-        static void CreateABucket(IAmazonS3 client)
+        private static void CreateABucket(IAmazonS3 client)
         {
             try
             {
-                PutBucketRequest putRequest = new PutBucketRequest
+                var putRequest = new PutBucketRequest
                 {
-                    BucketName = bucketName,
+                    BucketName = BucketName,
                     UseClientRegion = true
                 };
-                PutBucketResponse response = client.PutBucket(putRequest);
+                var response = client.PutBucket(putRequest);
+                Console.WriteLine(response.ResponseMetadata);
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
-                if (amazonS3Exception.ErrorCode != null &&
-                    amazonS3Exception.ErrorCode.Equals("InvalidAccessKeyId")
-                    ||
-                    amazonS3Exception.ErrorCode.Equals("InvalidSecurity"))
+                if (amazonS3Exception.ErrorCode != null && 
+                    (amazonS3Exception.ErrorCode != null &&
+                     amazonS3Exception.ErrorCode.Equals("InvalidAccessKeyId") ||
+                     amazonS3Exception.ErrorCode.Equals("InvalidSecurity")))
                 {
                     Console.WriteLine("Check the provided AWS Credentials.");
                     Console.WriteLine("For service sign up go to http://aws.amazon.com/s3");
