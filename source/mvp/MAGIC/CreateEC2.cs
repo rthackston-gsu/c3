@@ -16,8 +16,8 @@ namespace magic.gsu.edu
         static readonly AmazonEC2Client Ec2Client = new AmazonEC2Client();
         public static void CreateInstance()
         {
-            const string amiId = "ami-e189c8d1";
-            const string keyPairName = "my_sample_key";
+            const string amiId = "ami-01897279";
+            const string keyPairName = "my_key";
 
             var instanceProfileArn = CreateInstanceProfile();
             Console.WriteLine("Created Instance Profile: {0}", instanceProfileArn);
@@ -37,7 +37,7 @@ namespace magic.gsu.edu
             var launchRequest = new RunInstancesRequest()
             {
                 ImageId = amiId,
-                InstanceType = InstanceType.T1Micro,
+                InstanceType = InstanceType.T2Micro,
                 MinCount = 1,
                 MaxCount = 1,
                 KeyName = keyPair.KeyName,
@@ -101,19 +101,26 @@ namespace magic.gsu.edu
                 AssumeRolePolicyDocument = @"{""Statement"":[{""Principal"":{""Service"":[""ec2.amazonaws.com""]},""Effect"":""Allow"",""Action"":[""sts:AssumeRole""]}]}"
             });
 
-            var statement = new Statement(Statement.StatementEffect.Allow);
-            statement.Actions.Add(S3ActionIdentifiers.AllS3Actions);
-            statement.Resources.Add(new Resource("*"));
+            var s3statement = new Statement(Statement.StatementEffect.Allow);
+            s3statement.Actions.Add(S3ActionIdentifiers.AllS3Actions);
+            s3statement.Resources.Add(new Resource("*"));
+
+            var ec2statement = new Statement(Statement.StatementEffect.Allow);
+            ec2statement.Actions.Add(EC2ActionIdentifiers.AllEC2Actions);
+            ec2statement.Resources.Add(new Resource("*"));
 
             var policy = new Policy();
-            policy.Statements.Add(statement);
+            policy.Statements.Add(ec2statement);
+            policy.Statements.Add(s3statement);
 
             client.PutRolePolicy(new PutRolePolicyRequest
             {
                 RoleName = roleName,
-                PolicyName = "S3Access",
+                PolicyName = "S3EC2Access",
                 PolicyDocument = policy.ToJson()
             });
+
+//            statement = new Statement(Statement.StatementEffect.Allow);
 
             var response = client.CreateInstanceProfile(new CreateInstanceProfileRequest
             {
