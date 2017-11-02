@@ -1,20 +1,17 @@
-#!bin/bash
+#!/bin/bash
+GUID=<GUID>
+BUCKET=<BUCKET>
+echo '$GUID'
 
-result="Hello World"
-echo `${result} > result.txt`
-file="result.txt"
-bucket="<bucket_guid>"
-resource="/${bucket}/${file}"
-contentType="text/plain"
-date=`date +%Y%m%d`
-dateValue=`date -R`
-stringToSign="PUT\n\n${contentType}\n${dateValue}\n${resource}"
-s3Secret=<secret_access_key>
-s3Key=<access_key_id>
-signature=`echo -en ${stringToSign} | openssl sha1 -hmac ${s3Secret} -binary | base64`
-curl -X PUT -T "${file}" \
-  -H "Host: ${bucket}.s3.amazonaws.com" \
-  -H "Date: ${dateValue}" \
-  -H "Content-Type: ${contentType}" \
-  -H "Authorization: AWS ${s3Key}:${signature}" \
-  https://${bucket}.s3.amazonaws.com/${file}
+apt install awscli -y
+
+aws configure set aws_secret_access_key <secret_access_key>
+aws configure set region <region_name>
+aws configure set output json
+aws configure set aws_access_key_id <access_key_id>
+
+(aws s3 cp s3://$GUID/task.sh task.sh)
+(bash task.sh)
+
+aws s3 cp result.txt s3://$BUCKET/$GUID/
+(shutdown -h now)

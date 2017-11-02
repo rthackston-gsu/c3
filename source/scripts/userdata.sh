@@ -1,5 +1,6 @@
 #!/bin/bash
 GUID=<GUID>
+BUCKET=<BUCKET>
 echo '$GUID'
 
 YUM_CMD=$(which yum)
@@ -21,5 +22,5 @@ get_package() {
 }
 
 get_package awscli
-(aws s3 cp s3://$GUID/controller.sh controller.sh)
+(aws s3 cp s3://$BUCKET/$GUID/controller.sh controller.sh)
 (bash controller.sh)
