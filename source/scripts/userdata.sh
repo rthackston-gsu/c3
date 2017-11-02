@@ -22,3 +22,4 @@ get_package() {
 
 get_package awscli
 (aws s3 cp s3://$GUID/controller.sh controller.sh)
+(bash controller.sh)

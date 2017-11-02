@@ -7,4 +7,4 @@ aws configure set region <region_name>
 aws configure set output json
 (aws ec2 run-instances --image-id ami-6e1a0117 --count 1 --instance-type t2.micro \
 --key-name <private_key.pem> --security-group-ids launch-wizard-2 \
---user-data file://taskFile.sh)
+--user-data file://userdata.sh)
