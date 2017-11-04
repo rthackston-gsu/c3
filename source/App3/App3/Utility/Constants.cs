@@ -4,6 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+/*
+    Constants:
+    Code contains contants for the worker, config, task, controller and user-data scripts
+ * By Beloved Egbedion
+ * For Dr. Russell Thackston
+ * MAGIC Project
+    10/28/2017
+*/
 namespace App3.Utility
 {
     class Constants

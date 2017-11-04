@@ -8,9 +8,10 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.VerticalScrollMode="Enabled">
+        <Grid Height="123" VerticalAlignment="Top">
         <Button Content="Go!"  HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGreen" FontSize="30"  Height="80" Width="122" Click="Button_Click"/>
-
-        <TextBox Header="Status:" VerticalAlignment="Bottom" IsReadOnly="True" x:Name="textBlock" HorizontalAlignment="Stretch" Height="120" Margin="10,0,0,8" Width="Auto" TextWrapping="Wrap" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0" />
+        </Grid>
+        <TextBox Header="Status:" VerticalAlignment="Bottom" IsReadOnly="True" x:Name="textBlock" HorizontalAlignment="Stretch" Height="224" Margin="4,0,6,8" Width="Auto" TextWrapping="Wrap" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0" />
    
     </Grid>
 </Page>

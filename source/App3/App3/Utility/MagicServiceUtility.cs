@@ -24,6 +24,16 @@ using Amazon.Auth.AccessControlPolicy.ActionIdentifiers;
 using Amazon.Auth.AccessControlPolicy;
 using Amazon.IdentityManagement.Model;
 
+/*
+    MagicServiceUtility:
+    Code contains methods to Check Status of both EC2 and S3, Create S3 Bucket, Run and Terminate Instances of EC2
+ * By Beloved Egbedion
+ * For Dr. Russell Thackston
+ * MAGIC Project
+ * 10/21/2017
+*/
+
+
 namespace App3.Utility
 {
     class MagicServiceUtility
@@ -330,20 +340,14 @@ namespace App3.Utility
                 sr.WriteLine("Welcome to the MAGIC CREATE EC2!");
                 sr.WriteLine("===========================================");
                 string encodedString="";
-                //try {
                     string userdata = Constants.user_data_string.Replace("<bucket_name>", BUCKET_NAME).Replace("<bucket_guid>", generatedUID)
                             ;
                     sr.WriteLine("\n" + userdata);
-                    string formattedString = Constants.ud_file_text_content;
+                    string formattedString = userdata;
                     sr.WriteLine("\n" + formattedString);
                     encodedString = EncodeToBase64(formattedString);
                     sr.WriteLine("\n" + encodedString);
-               // }
-               // catch (Exception e)
-              //  {
-              //      Debug.WriteLine(e.Message);
-              //      sr.WriteLine(e.Message);
-              //  }
+
       
 
                 var ec2Client = new AmazonEC2Client(accessKeyId, secretAccessKey, region);

@@ -18,6 +18,16 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+/*
+ * MVP
+ * MainPage.xaml.cs:
+ * Code contains methods to initiate the process by calling the async task(not on the UI thread)
+ * By Beloved Egbedion
+ * For Dr. Russell Thackston
+ * MAGIC Project
+ * 10/21/2017
+*/
+
 
 namespace App3
 {
