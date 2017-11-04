@@ -8,6 +8,7 @@ namespace App3.Utility
 {
     class Constants
     {
+        public static string weDoNotUse = "TestString";
         public static string worker_text_content = "#!/bin/bash \n \n" + "BUCKET=<bucket_name> \n" + "GUID=<bucket_guid> \n" +
             " echo '$GUID' \n" +
             "\apt install awscli -y \n"
