@@ -46,7 +46,7 @@ namespace App3
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            /*
+            
             //Calls EC2 AWS SDK
             Task<string> getMagicTask = MagicServiceUtility.GetServiceOutputAsync();
         
@@ -55,12 +55,9 @@ namespace App3
             Debug.WriteLine("Characters received: " +result + "\n"+result.Length);
             if (result.Length > 0)
             {
-
-             //   textBlock.FontSize = 25;
-            //    textBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
                 textBlock.Text = textBlock.Text + "\n" + result;
             }
-            */
+            
 
             Task<string> createS3Buccket = MagicServiceUtility.createS3();
 
@@ -73,13 +70,7 @@ namespace App3
             Debug.WriteLine("Characters received: " + resultBucket + "\n" + resultBucket.Length);
             if (resultBucket.Length > 0)
             {
-
-                //   textBlock.FontSize = 25;
-                //    textBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
                 textBlock.Text = textBlock.Text + "\n" + resultBucket;
-
-
-
             }
             /*
             Task<string> createEc2V = MagicServiceUtility.createEc2();

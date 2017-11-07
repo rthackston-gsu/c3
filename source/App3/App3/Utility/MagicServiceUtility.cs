@@ -164,7 +164,7 @@ namespace App3.Utility
         public static async Task<string> createS3()
         {
             region = RegionEndpoint.USWest2;
-            BUCKET_NAME = "magicbucket1234567";
+            BUCKET_NAME = Constants.S3_BUCKET_NAME;
             
             StringBuilder sb = new StringBuilder(1024);
             using (StringWriter sr = new StringWriter(sb))
@@ -199,19 +199,10 @@ namespace App3.Utility
                         sr.WriteLine("===========================================");
                         sr.WriteLine("Created S3Bucket, Now adding files");
                         sr.WriteLine("===========================================" );
-                        FileOpenPicker openPicker = new FileOpenPicker();
-                        openPicker.ViewMode = PickerViewMode.Thumbnail;
-                        openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-                        openPicker.FileTypeFilter.Add(".jpg");
-                        openPicker.FileTypeFilter.Add(".png");
-                        StorageFile file = await openPicker.PickSingleFileAsync();
-                        if (file != null)
-                        {
-                            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
-                            var image = new BitmapImage();
-                            image.SetSource(stream);
 
-                            sr.WriteLine(stream.Size);
+                        if (true)
+                        {
+                           
                             String genGuid = generateGUID();
                             String S3_KEY = "" + genGuid + "/" + "task.sh";
                             string task_file_text_content = Constants.task_file_text_content.Replace("<GUID>", genGuid);
@@ -275,10 +266,8 @@ namespace App3.Utility
                                    
                              }
                         }
-                        else
-                        {
-                            sr.WriteLine("File is null");
-                        }
+                     
+
                     }
                 }
                 catch (AmazonS3Exception ex)
@@ -311,16 +300,7 @@ namespace App3.Utility
         // This script will show how to use the AWS Tools for PowerShell to create a bucket and write to it.
         // It will be set as the user data in the EC2 Instance created which will run once the EC2 instance is 
         // fully launched.
-        const string USER_DATA_SCRIPT_OLD =
-            "<powershell>\n" +
-            "Import-Module \"C:\\Program Files (x86)\\AWS Tools\\PowerShell\\AWSPowerShell\\AWSPowerShell.psd1\"\n" +
-            "Set-DefaultAWSRegion {0}\n" +
-            "New-Item c:\\Data -type directory\n" +
-            "Add-Content -path c:\\Data\\results.txt -value \"Results from lots of data processing\"\n" +
-            "New-S3Bucket -BucketName {1}\n" +
-            "Write-S3Object -BucketName {1} -File c:\\Data\\results.txt -Key results.txt\n" +
-            "shutdown.exe /s\n" +
-            "</powershell>";
+
 
        
 
@@ -355,7 +335,6 @@ namespace App3.Utility
                 {
                     // Get latest 2012 Base AMI
                     //  var imageId = ImageUtilities.FindImageAsync(ec2Client, ImageUtilities.U).Result.ImageId;
-                  //  sr.WriteLine("Using Image ID: {0}", imageId);
                     var imageId = "ami-6e1a0117";
 
                     // Create an IAM role with a profile that the Instance will use to run commands against AWS
@@ -363,7 +342,6 @@ namespace App3.Utility
                     sr.WriteLine("Created Instance Profile: {0}", instanceProfileArn);
 
                     // Sleep for a little to make sure the profile is fully propagated.
-                    // Thread.Sleep(15000);
                     await Task.Delay(TimeSpan.FromMilliseconds(15000));
 
                     // Create key pair which will be used to demonstrate how get the Windows Administrator password.
@@ -431,6 +409,7 @@ namespace App3.Utility
                         InstanceIds = new List<string>() { instanceId }
                     });
                     */
+
                     // Delete key pair created.
                    // await ec2Client.DeleteKeyPairAsync(new DeleteKeyPairRequest { KeyName = keyPair.KeyName });
 

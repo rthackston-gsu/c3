@@ -18,6 +18,7 @@ namespace App3.Utility
     class Constants
     {
         public static string weDoNotUse = "TestString";
+        public static string S3_BUCKET_NAME = "magicbucket1234567";
         public static string worker_text_content = "#!/bin/bash \n \n" + "BUCKET=<bucket_name> \n" + "GUID=<bucket_guid> \n" +
             " echo '$GUID' \n" +
             "\apt install awscli -y \n"
@@ -71,6 +72,16 @@ namespace App3.Utility
             " (aws s3 cp s3://$BUCKET/$GUID/controller.sh controller.sh) \n \n" +
             "(bash controller.sh)";
 
+        public static string USER_DATA_SCRIPT_OLD =
+    "<powershell>\n" +
+    "Import-Module \"C:\\Program Files (x86)\\AWS Tools\\PowerShell\\AWSPowerShell\\AWSPowerShell.psd1\"\n" +
+    "Set-DefaultAWSRegion {0}\n" +
+    "New-Item c:\\Data -type directory\n" +
+    "Add-Content -path c:\\Data\\results.txt -value \"Results from lots of data processing\"\n" +
+    "New-S3Bucket -BucketName {1}\n" +
+    "Write-S3Object -BucketName {1} -File c:\\Data\\results.txt -Key results.txt\n" +
+    "shutdown.exe /s\n" +
+    "</powershell>";
 
     }
 }
