@@ -7,11 +7,11 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace App3.Utility
+namespace MagicUWP
 {
     class PromptFilePicker
     {
-        async Task chooseFile()
+        async Task ChooseFile()
         {
             FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.ViewMode = PickerViewMode.Thumbnail;
@@ -24,7 +24,7 @@ namespace App3.Utility
             var image = new BitmapImage();
             image.SetSource(stream);
 
-            sr.WriteLine(stream.Size);
+            //sr.WriteLine(stream.Size);
         }
     }
 }

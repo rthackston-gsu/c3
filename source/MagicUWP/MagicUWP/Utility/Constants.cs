@@ -13,12 +13,12 @@ using System.Threading.Tasks;
  * MAGIC Project
     10/28/2017
 */
-namespace App3.Utility
+namespace MagicUWP
 {
     class Constants
     {
         public static string weDoNotUse = "TestString";
-        public static string S3_BUCKET_NAME = "magicbucket1234567";
+        public static string S3_BUCKET_NAME = "magicbucket12345678";
         public static string worker_text_content = "#!/bin/bash \n \n" + "BUCKET=<bucket_name> \n" + "GUID=<bucket_guid> \n" +
             " echo '$GUID' \n" +
             "\apt install awscli -y \n"
@@ -35,8 +35,10 @@ namespace App3.Utility
             "(shutdown -h now)\n";
 
         
-        public static string ud_file_text_content = "#!/bin/bash \n touch /tmp/test.txt";
-
+        public static string ud_file_text_content = "#!/bin/bash \n echo 'bar' > /tmp/bar \n echo 'foo' > /tmp/foo";
+ 
+        
+        
         public static string task_file_text_content = "#!/bin/bash \necho 'hello world' > result.txt";
 
         public static string controller_text_content = "#!/bin/bash \n \n" + "BUCKET=<bucket_name> \n" + "GUID=<bucket_guid> \n" +

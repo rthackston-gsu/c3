@@ -1,4 +1,4 @@
-﻿using App3.Utility;
+﻿using MagicUWP;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,7 +29,7 @@ using Windows.UI.Xaml.Navigation;
 */
 
 
-namespace App3
+namespace MagicUWP
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -46,8 +46,9 @@ namespace App3
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+
             //Calls EC2 AWS SDK
+            /*
             Task<string> getMagicTask = MagicServiceUtility.GetServiceOutputAsync();
         
             string result = await getMagicTask;
@@ -57,15 +58,16 @@ namespace App3
             {
                 textBlock.Text = textBlock.Text + "\n" + result;
             }
-            
+            */
+
 
             Task<string> createS3Buccket = MagicServiceUtility.createS3();
 
 
             string resultBucket = "";
-           
-                resultBucket = await createS3Buccket;
-           
+
+            resultBucket = await createS3Buccket;
+
 
             Debug.WriteLine("Characters received: " + resultBucket + "\n" + resultBucket.Length);
             if (resultBucket.Length > 0)
@@ -89,7 +91,7 @@ namespace App3
         }
 
         #region Button Click Event Handlers
-        private void browseFile_Click(object sender, RoutedEventArgs e)
+        private void BrowseFile_Click(object sender, RoutedEventArgs e)
         {
             /*
             Fil dlg = new Microsoft.Win32.OpenFileDialog();
@@ -104,3 +106,4 @@ namespace App3
 
     }
 }
+
