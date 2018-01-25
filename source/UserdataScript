@@ -1,0 +1,13 @@
+#cloud-boothook
+#!/bin/bash
+Instance_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+BUCKET=magicbucket123456789
+GUID=6ccbd3e0-d9b0-413a-a059-bcbcb4969644
+bash $(aws s3 ls s3://$BUCKET/$GUID/task.sh)> /home/ec2-user/result2.txt
+aws s3 mv /home/ec2-user/result2.txt s3://$BUCKET/$GUID/$Instance_ID/
+aws ec2 describe-instance-status --instance-ids i-09de4506150a060ae
+if [ "$?" -eq "0" ]
+then
+aws ec2 stop-instances --instance-ids $Instance_ID
+else
+echo "Task not completed"
