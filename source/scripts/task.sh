@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo 'hello world' > result.txt
+echo 'hello world'
