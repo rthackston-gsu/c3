@@ -11,7 +11,11 @@ aws configure set output json
 aws configure set aws_access_key_id <access_key_id>
 
 (aws s3 cp s3://$BUCKET/$GUID/task.sh task.sh)
-(bash task.sh)
 
+# Start while loop
+# Get message from queue as $MSG
+(bash task.sh $MSG)
 aws s3 cp result.txt s3://$BUCKET/$GUID/
+# End while loop when no more messages
+
 (shutdown -h now)
