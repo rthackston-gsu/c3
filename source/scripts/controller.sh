@@ -8,5 +8,9 @@ aws configure set aws_access_key_id <access_key_id>
 (aws s3 cp s3://$BUCKET/$GUID/magic.conf magic.conf)
 (aws s3 cp s3://$BUCKET/$GUID/worker.sh worker.sh)
 
+# Download and run Rabbitmq_server script to install and launch RabbitMQ
+
+# Download and run XYZ script to populate queue with jobs/messages
+
 # TODO: Read config values from magic.conf
 (aws ec2 run-instances --image-id ami-6e1a0117 --count 1 --instance-type t2.micro --security-group-ids launch-wizard-2 --user-data file://worker.sh)
