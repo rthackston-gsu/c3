@@ -19,7 +19,6 @@ while [ $count -le $counter ]
 do
 MSG=$(python rec.py)
 bash /home/ec2-user/task.sh $MSG
-aws s3 cp result.txt s3://$BUCKET/$GUID/
 aws s3 mv result$MSG.txt s3://$BUCKET/$GUID/$Instance_ID/
 count=`expr $count + 1`
 done
