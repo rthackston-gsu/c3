@@ -11,6 +11,10 @@ aws configure set aws_access_key_id <access_key_id>
 # Download and run Rabbitmq_server script to install and launch RabbitMQ
 
 # Download and run XYZ script to populate queue with jobs/messages
-
+message=("{1:45}" "{2:55}" "{3:90}")
+for i in ${message[@]}
+do
+python send.py $i
+done
 # TODO: Read config values from magic.conf
-(aws ec2 run-instances --image-id ami-6e1a0117 --count 1 --instance-type t2.micro --security-group-ids launch-wizard-2 --user-data file://worker.sh)
+(aws ec2 run-instances --image-id ami-f63b1193 --count 1 --instance-type t2.micro --key-name magicuwp --security-group-ids sg-a58bbdcd --user-data file://worker.sh)
