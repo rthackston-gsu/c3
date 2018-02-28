@@ -11,7 +11,7 @@ aws configure set aws_access_key_id <access_key_id>
 # Download and run Rabbitmq_server script to install and launch RabbitMQ
 
 # Download and run XYZ script to populate queue with jobs/messages
-message=("{1:45}" "{2:55}" "{3:90}")
+message=("A" "B" "C")
 for i in ${message[@]}
 do
 python send.py $i
