@@ -19,7 +19,7 @@ wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.2.2/rabbitmq-server-3.2
 sudo rpm --import http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
 
 # Install the .RPM package using YUM:
-sudo yum install rabbitmq-server-3.2.2-1.noarch.rpm
+sudo yum install -y rabbitmq-server-3.2.2-1.noarch.rpm
 
 # To have RabbitMQ start as a daemon by default
 sudo chkconfig rabbitmq-server on
