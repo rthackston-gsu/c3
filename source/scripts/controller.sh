@@ -6,11 +6,12 @@ aws configure set region <region_name>
 aws configure set output json 
 
 # copying the script to the ec2 home directory
-(aws s3 cp s3://$BUCKET/$GUID/magic.conf /home/ec2-user/)
-(aws s3 cp s3://$BUCKET/$GUID/worker.sh /home/ec2-user/)
+aws s3 cp s3://$BUCKET/$GUID/magic.conf /home/ec2-user/
+aws s3 cp s3://$BUCKET/$GUID/worker.sh /home/ec2-user/
+aws s3 cp s3://$BUCKET/$GUID/send.py /home/ec2-user/
 
 # Download and run Rabbitmq_server script to install and launch RabbitMQ
-(aws s3 cp s3://$BUCKET/$GUID/rabbitmq.sh /home/ec2-user/)
+aws s3 cp s3://$BUCKET/$GUID/rabbitmq.sh /home/ec2-user/
 bash /home/ec2-user/rabbitmq.sh
 
 # Download and run XYZ script to populate queue with jobs/messages
