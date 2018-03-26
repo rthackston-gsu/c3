@@ -23,5 +23,5 @@ done
 
 # TODO: Read config values from magic.conf
 source /home/ec2-user/magic.conf
-(aws ec2 run-instances --image-id $MAGIC_IMAGE_ID --iam-instance-profile Name="$IAM_USER" --count $MAGIC_COUNT --instance-type $MAGIC_INSTANCE_TYPE --key-name $MAGIC_KEY_NAME --security-group-ids $MAGIC_SGI --user-data file://worker.sh)
+(aws ec2 run-instances --image-id $MAGIC_IMAGE_ID --iam-instance-profile Name="$MAGIC_IAM_USER" --count $MAGIC_COUNT --instance-type $MAGIC_INSTANCE_TYPE --key-name $MAGIC_KEY_NAME --security-group-ids $MAGIC_SGI --user-data file://worker.sh)
 
