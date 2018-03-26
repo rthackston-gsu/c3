@@ -1,9 +1,5 @@
 #!/bin/bash
 
-aws configure set aws_access_key_id <access_key_id>
-aws configure set aws_secret_access_key <secret_access_key>
-aws configure set region <region_name>
-aws configure set output json 
 
 # copying the script to the ec2 home directory
 aws s3 cp s3://$BUCKET/$GUID/magic.conf /home/ec2-user/
