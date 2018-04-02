@@ -2,6 +2,7 @@
 GUID=<GUID>
 BUCKET=<BUCKET>
 
+Instance_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
 aws s3 cp s3://$BUCKET/$GUID/controller_ip.sh .
 aws s3 cp s3://$BUCKET/$GUID/task.sh .
 aws s3 cp s3://$BUCKET/$GUID/rec.py .
