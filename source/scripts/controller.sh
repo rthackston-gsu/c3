@@ -1,5 +1,9 @@
 #!/bin/bash
 
+ip=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+echo $ip > ip.txt
+aws s3 cp ip.txt s3://$BUCKET/$GUID/
+
 # copying the script to the ec2 home directory
 aws s3 cp s3://$BUCKET/$GUID/magic.conf .
 aws s3 cp s3://$BUCKET/$GUID/worker.sh .
