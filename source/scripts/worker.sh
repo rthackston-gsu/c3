@@ -2,6 +2,7 @@
 GUID=<GUID>
 BUCKET=<BUCKET>
 
+aws s3 cp s3://$BUCKET/$GUID/controller_ip.sh .
 aws s3 cp s3://$BUCKET/$GUID/task.sh .
 aws s3 cp s3://$BUCKET/$GUID/rec.py .
 
@@ -12,7 +13,7 @@ aws s3 cp s3://$BUCKET/$GUID/rabbitmq.sh .
 # Start while loop
 while true
 do
-MSG=$(python rec.py)
+MSG=$(python rec.py $(cat controller_ip.txt))
 bash task.sh $MSG
 aws s3 mv result$MSG.txt s3://$BUCKET/$GUID/$Instance_ID/
 if [[ $MSG == None ]]
