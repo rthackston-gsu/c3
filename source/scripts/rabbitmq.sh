@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo pip-2.7 install pika
+pip-2.7 install pika
 # yum -y update
 
 # Add and enable relevant application repositories:
