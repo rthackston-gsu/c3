@@ -23,6 +23,7 @@ do
 python send.py $i
 done
 
+
 # Setting AWS region
 aws configure set region us-east-2
 
