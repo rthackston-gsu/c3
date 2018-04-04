@@ -27,3 +27,4 @@ then
 break
 fi
 done
+shutdown -h now
