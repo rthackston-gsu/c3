@@ -16,15 +16,12 @@ chmod +x rabbitmq.sh
 ./rabbitmq.sh
 
 # Start while loop
-while true
+MSG=$(python rec.py $a)
+while [[ $MSG != None ]]
 do
 a=$(cat controller_ip.txt)
-MSG=$(python rec.py $a)
 ./task.sh $MSG
 aws s3 mv result$MSG.txt s3://$BUCKET/$GUID/$Instance_ID/
-if [[ $MSG == None ]]
-then
-break
-fi
+MSG=$(python rec.py $a)
 done
 shutdown -h now
