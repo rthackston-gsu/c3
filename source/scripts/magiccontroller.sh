@@ -16,12 +16,9 @@ aws s3 cp s3://$BUCKET/$GUID/rabbitmq.sh .
 chmod +x rabbitmq.sh
 ./rabbitmq.sh
 
-# Download and run XYZ script to populate queue with jobs/messages
-message=("A" "B" "C")
-for i in ${message[@]}
-do
-python send.py $i
-done
+aws s3 cp s3://$BUCKET/$GUID/loadjobs.sh .
+chmod +x loadjobs.sh
+./loadjobs.sh
 
 # Setting AWS region
 aws configure set region us-east-2
