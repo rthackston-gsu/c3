@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "hello world $1" > result$1.txt
+echo "This is task $1" > result$1.txt
