@@ -4,6 +4,7 @@
 message=("A" "B" "C")
 for i in ${message[@]}
 do
-python send.py $i
+e="$(echo "$i" | base64)"
+python send.py $e
 done
 
