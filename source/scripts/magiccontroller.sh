@@ -30,7 +30,7 @@ aws ec2 run-instances --image-id $MAGIC_IMAGE_ID --iam-instance-profile Name="$M
 # Shut down controller
 while true
 do 
-Number_Jobs=${#message[@]}
+Number_Jobs=$(cat Total_Job.txt)
 Completed_Jobs=$(aws s3 ls s3://$BUCKET/$GUID/Jobs_Completed/ | wc -l)
 if [ $Number_Jobs == $Completed_Jobs ]
 then
