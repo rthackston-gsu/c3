@@ -20,7 +20,8 @@ MSG=$(python rec.py $a)
 while [[ $MSG != None ]]
 do
 ./task.sh $MSG
+aws s3 mv result*.txt s3://$BUCKET/$GUID/$Instance_ID/
+aws s3 mv job*.txt s3://$BUCKET/$GUID/Jobs_Completed/
 MSG=$(python rec.py $a)
 done
-aws s3 mv result*.txt s3://$BUCKET/$GUID/$Instance_ID/
 shutdown -h now
